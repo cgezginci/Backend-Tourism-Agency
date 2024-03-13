@@ -4,6 +4,7 @@ import dev.patika.tourismAgency.bussiness.abstracts.IRoomService;
 import dev.patika.tourismAgency.core.config.modelMapper.IModelMapperService;
 import dev.patika.tourismAgency.core.config.utilies.Msg;
 import dev.patika.tourismAgency.core.config.utilies.ResultHelper;
+import dev.patika.tourismAgency.core.result.ListResult;
 import dev.patika.tourismAgency.core.result.Result;
 import dev.patika.tourismAgency.core.result.ResultData;
 import dev.patika.tourismAgency.dto.request.room.SaveRoomRequest;
@@ -70,6 +71,12 @@ public class RoomController {
             @RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
             @RequestParam("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
         return this.roomService.getRoomsByDate(startDate, endDate);
+    }
+
+    @GetMapping("/all")
+    @ResponseStatus(HttpStatus.OK)
+    public ResultData<List<RoomResponse>> findAll() {
+        return this.roomService.findAll();
     }
 
 

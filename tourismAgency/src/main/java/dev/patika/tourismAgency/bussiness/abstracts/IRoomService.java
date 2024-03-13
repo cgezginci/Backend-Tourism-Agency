@@ -1,5 +1,6 @@
 package dev.patika.tourismAgency.bussiness.abstracts;
 
+import dev.patika.tourismAgency.core.result.ListResult;
 import dev.patika.tourismAgency.core.result.ResultData;
 import dev.patika.tourismAgency.dto.request.room.SaveRoomRequest;
 import dev.patika.tourismAgency.dto.request.room.UpdateRoomRequest;
@@ -25,6 +26,8 @@ public interface IRoomService {
     ResultData<RoomResponse> update(UpdateRoomRequest updateRoomRequest);
 
     ResultData<List<RoomResponse>> getRoomsByDate(LocalDate startDate, LocalDate endDate);
+
+    ResultData<List<RoomResponse>> findAll();
 
 
 }

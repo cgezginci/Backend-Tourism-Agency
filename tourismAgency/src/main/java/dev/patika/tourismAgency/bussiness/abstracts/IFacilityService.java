@@ -1,9 +1,12 @@
 package dev.patika.tourismAgency.bussiness.abstracts;
 
+import dev.patika.tourismAgency.core.result.ListResult;
 import dev.patika.tourismAgency.core.result.ResultData;
 import dev.patika.tourismAgency.dto.request.facility.SaveFacilityRequest;
 import dev.patika.tourismAgency.dto.response.FacilityResponse;
 import dev.patika.tourismAgency.entities.Facility;
+
+import java.util.List;
 
 public interface IFacilityService {
 
@@ -16,4 +19,8 @@ public interface IFacilityService {
     Facility update(Facility facility);
 
     ResultData<Facility> get2(long id);
+
+    ResultData<List<FacilityResponse>> findAll();
+
+    ResultData<Facility>findByFacilityName(String facilityName);
 }

@@ -7,6 +7,8 @@ import dev.patika.tourismAgency.dto.request.hotel.UpdateHotelRequest;
 import dev.patika.tourismAgency.dto.response.HotelResponse;
 import dev.patika.tourismAgency.entities.Hotel;
 
+import java.util.List;
+
 public interface IHotelService {
 
     ResultData<HotelResponse> save(SaveHotelRequest saveHotelRequest);
@@ -20,4 +22,6 @@ public interface IHotelService {
     ListResult<Hotel> findByName(String name);
 
     ResultData<HotelResponse> findByHotelName(String name);
+
+    ResultData<List<HotelResponse>> findAll();
 }

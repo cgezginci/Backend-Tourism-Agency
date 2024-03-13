@@ -4,6 +4,7 @@ import dev.patika.tourismAgency.bussiness.abstracts.IReservationService;
 import dev.patika.tourismAgency.core.config.modelMapper.IModelMapperService;
 import dev.patika.tourismAgency.core.config.utilies.Msg;
 import dev.patika.tourismAgency.core.config.utilies.ResultHelper;
+import dev.patika.tourismAgency.core.result.ListResult;
 import dev.patika.tourismAgency.core.result.Result;
 import dev.patika.tourismAgency.core.result.ResultData;
 import dev.patika.tourismAgency.dto.request.reservation.SaveReservationRequest;
@@ -52,6 +53,18 @@ public class ReservationController {
     @ResponseStatus(HttpStatus.OK)
     public ResultData<ReservationResponse> update(@Valid @RequestBody UpdateReservationRequest updateReservationRequest) {
         return this.reservationService.update(updateReservationRequest);
+    }
+
+    @GetMapping("/all")
+    @ResponseStatus(HttpStatus.OK)
+    public ListResult<ReservationResponse> getAll() {
+        return this.reservationService.findAll();
+    }
+
+    @GetMapping("/filter/{personName}/{personSurname}")
+    @ResponseStatus(HttpStatus.OK)
+    public ListResult<ReservationResponse> findByPersonNameAndPersonSurname(@PathVariable("personName") String personName, @PathVariable("personSurname") String personSurname) {
+        return this.reservationService.getReservationsByPersonNameAndPersonSurname(personName, personSurname);
     }
 
 }

@@ -11,6 +11,8 @@ import dev.patika.tourismAgency.dao.HostelRepo;
 import dev.patika.tourismAgency.dao.HotelRepo;
 import dev.patika.tourismAgency.dto.request.hotel.SaveHotelRequest;
 import dev.patika.tourismAgency.dto.request.hotel.UpdateHotelRequest;
+import dev.patika.tourismAgency.dto.response.FacilityResponse;
+import dev.patika.tourismAgency.dto.response.HostelResponse;
 import dev.patika.tourismAgency.dto.response.HotelResponse;
 import dev.patika.tourismAgency.entities.Facility;
 import dev.patika.tourismAgency.entities.Hostel;
@@ -18,6 +20,7 @@ import dev.patika.tourismAgency.entities.Hotel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -134,5 +137,21 @@ public class HotelManager implements IHotelService {
                 .findFirst()
                 .map(hotel -> ResultHelper.success(this.modelMapper.forResponse().map(hotel, HotelResponse.class)))
                 .orElseGet(() -> ResultData.error(Msg.NOT_FOUND, "404"));
+    }
+
+    @Override
+    public ResultData<List<HotelResponse>> findAll() {
+        List<Hotel> hotelList = this.hotelRepo.findAll();
+
+        try {
+            List<HotelResponse> responseList = new ArrayList<>();
+            for (Hotel hotel : hotelList) {
+                HotelResponse response = this.modelMapper.forResponse().map(hotel, HotelResponse.class);
+                responseList.add(response);
+            }
+            return ResultHelper.success(responseList);
+        } catch (Exception e) {
+            return ResultData.error(Msg.VALIDATE_ERROR, "500");
+        }
     }
 }

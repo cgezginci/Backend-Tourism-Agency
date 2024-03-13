@@ -4,6 +4,7 @@ import dev.patika.tourismAgency.bussiness.abstracts.IRoomService;
 import dev.patika.tourismAgency.core.config.modelMapper.IModelMapperService;
 import dev.patika.tourismAgency.core.config.utilies.Msg;
 import dev.patika.tourismAgency.core.config.utilies.ResultHelper;
+import dev.patika.tourismAgency.core.result.ListResult;
 import dev.patika.tourismAgency.core.result.ResultData;
 import dev.patika.tourismAgency.dao.HotelRepo;
 import dev.patika.tourismAgency.dao.RoomFeaturesRepo;
@@ -11,16 +12,14 @@ import dev.patika.tourismAgency.dao.RoomRepo;
 import dev.patika.tourismAgency.dao.RoomTypesRepo;
 import dev.patika.tourismAgency.dto.request.room.SaveRoomRequest;
 import dev.patika.tourismAgency.dto.request.room.UpdateRoomRequest;
+import dev.patika.tourismAgency.dto.response.FacilityResponse;
 import dev.patika.tourismAgency.dto.response.RoomResponse;
 import dev.patika.tourismAgency.entities.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -139,8 +138,6 @@ public class RoomManager implements IRoomService {
         }
     }
 
-
-
     @Override
     public boolean delete(long id) {
         try {
@@ -161,6 +158,22 @@ public class RoomManager implements IRoomService {
 
         }catch (Exception e){
             return ResultData.error(Msg.NOT_FOUND, "404");
+        }
+    }
+
+    @Override
+    public ResultData<List<RoomResponse>> findAll() {
+        List<Room> roomList = this.roomRepo.findAll();
+
+        try {
+            List<RoomResponse> responseList = new ArrayList<>();
+            for (Room room : roomList) {
+                RoomResponse response = this.modelMapper.forResponse().map(room, RoomResponse.class);
+                responseList.add(response);
+            }
+            return ResultHelper.success(responseList);
+        } catch (Exception e) {
+            return ResultData.error(Msg.VALIDATE_ERROR, "500");
         }
     }
 

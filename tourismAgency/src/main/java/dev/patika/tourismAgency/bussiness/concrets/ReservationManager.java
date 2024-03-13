@@ -4,6 +4,7 @@ import dev.patika.tourismAgency.bussiness.abstracts.IReservationService;
 import dev.patika.tourismAgency.core.config.modelMapper.IModelMapperService;
 import dev.patika.tourismAgency.core.config.utilies.Msg;
 import dev.patika.tourismAgency.core.config.utilies.ResultHelper;
+import dev.patika.tourismAgency.core.result.ListResult;
 import dev.patika.tourismAgency.core.result.ResultData;
 import dev.patika.tourismAgency.dao.ReservationRepo;
 import dev.patika.tourismAgency.dao.RoomRepo;
@@ -17,6 +18,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ReservationManager implements IReservationService {
@@ -138,4 +141,31 @@ public class ReservationManager implements IReservationService {
         }
 
     }
+
+    @Override
+    public ListResult<ReservationResponse> findAll() {
+        List<Reservation> reservations = this.reservationRepo.findAll();
+
+        if (reservations.isEmpty()) {
+            return ResultHelper.notFoundErrorList(Msg.NOT_FOUND);
+        } else {
+            return ResultHelper.successList(reservations.stream()
+                    .map(reservation -> this.modelMapper.forResponse().map(reservation, ReservationResponse.class))
+                    .collect(Collectors.toList()));
+        }
+    }
+
+    @Override
+    public ListResult<ReservationResponse> getReservationsByPersonNameAndPersonSurname(String personName, String personSurname) {
+        List<Reservation> reservations = this.reservationRepo.findByPersonNameIgnoreCaseAndPersonSurnameIgnoreCase(personName, personSurname);
+
+        if (reservations.isEmpty()) {
+            return ResultHelper.notFoundErrorList(Msg.NOT_FOUND);
+        } else {
+            return ResultHelper.successList(reservations.stream()
+                    .map(reservation -> this.modelMapper.forResponse().map(reservation, ReservationResponse.class))
+                    .collect(Collectors.toList()));
+        }
+    }
+
 }

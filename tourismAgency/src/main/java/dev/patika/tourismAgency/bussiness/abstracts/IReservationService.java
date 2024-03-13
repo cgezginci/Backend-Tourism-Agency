@@ -1,5 +1,6 @@
 package dev.patika.tourismAgency.bussiness.abstracts;
 
+import dev.patika.tourismAgency.core.result.ListResult;
 import dev.patika.tourismAgency.core.result.ResultData;
 import dev.patika.tourismAgency.dto.request.reservation.SaveReservationRequest;
 import dev.patika.tourismAgency.dto.request.reservation.UpdateReservationRequest;
@@ -18,6 +19,10 @@ public interface IReservationService {
     ResultData<ReservationResponse> getReservationById(long id);
 
     ResultData<ReservationResponse> update(UpdateReservationRequest updateReservationRequest);
+
+    ListResult<ReservationResponse> findAll();
+
+    ListResult<ReservationResponse> getReservationsByPersonNameAndPersonSurname(String personName , String personSurname);
 
 
 }

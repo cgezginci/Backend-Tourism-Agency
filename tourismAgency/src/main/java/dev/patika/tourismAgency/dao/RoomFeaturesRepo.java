@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface RoomFeaturesRepo extends JpaRepository<RoomFeatures,Long> {
+
+    RoomFeatures findByNameIgnoreCase(String name);
 }

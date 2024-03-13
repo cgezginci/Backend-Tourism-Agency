@@ -19,6 +19,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/v1/hotel")
@@ -70,6 +72,12 @@ public class HotelController {
     public ResultData<HotelResponse> update(@Valid @RequestBody UpdateHotelRequest updateHotelRequest) {
         return this.hotelService.update(updateHotelRequest);
 
+    }
+
+    @GetMapping("/all")
+    @ResponseStatus(HttpStatus.OK)
+    public ResultData<List<HotelResponse>> findAll() {
+        return this.hotelService.findAll();
     }
 
 }
