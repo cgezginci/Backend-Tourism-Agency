@@ -44,10 +44,23 @@ public class RoomManager implements IRoomService {
         try {
             Room room = modelMapper.forRequest().map(saveRoomRequest, Room.class);
 
+            List<Long> roomFeaturesIds = saveRoomRequest.getRoomFeatures();
+
+            boolean allRoomFeaturesValid = roomFeaturesIds.stream()
+                    .allMatch(roomFeaturesId -> roomFeaturesRepo.findById(roomFeaturesId).isPresent());
+
+            if (!allRoomFeaturesValid) {
+                return ResultData.error("One or more room feature IDs are invalid.", "400");
+            }
+
             List<RoomFeatures> roomFeaturesList = saveRoomRequest.getRoomFeatures().stream()
                     .map(roomFeaturesId -> roomFeaturesRepo.findById(roomFeaturesId).orElse(null))
                     .filter(Objects::nonNull)
                     .collect(Collectors.toList());
+
+            if (roomFeaturesList.isEmpty()) {
+                return ResultData.error("Room features list is empty.", "400");
+            }
 
             room.setRoomFeatures(roomFeaturesList);
 
@@ -98,6 +111,15 @@ public class RoomManager implements IRoomService {
             Room response = this.roomRepo.findById(id).orElseThrow();
             this.modelMapper.forRequest().map(updateRoomRequest, response);
 
+            List<Long> roomFeaturesIds = updateRoomRequest.getRoomFeatures();
+
+            boolean allRoomFeaturesValid = roomFeaturesIds.stream()
+                    .allMatch(roomFeaturesId -> roomFeaturesRepo.findById(roomFeaturesId).isPresent());
+
+            if (!allRoomFeaturesValid) {
+                return ResultData.error("One or more room feature IDs are invalid.", "400");
+            }
+
             RoomTypes roomTypes = roomTypesRepo.findById(updateRoomRequest.getRoomType().getId()).orElse(null);
             response.setRoomType(roomTypes);
 
@@ -108,6 +130,10 @@ public class RoomManager implements IRoomService {
                     .map(roomFeaturesId -> roomFeaturesRepo.findById(roomFeaturesId).orElse(null))
                     .filter(Objects::nonNull)
                     .collect(Collectors.toList());
+
+            if (roomFeaturesList.isEmpty()) {
+                return ResultData.error(Msg.VALIDATE_ERROR, "Room features list is empty.");
+            }
 
             response.setRoomFeatures(roomFeaturesList);
 

@@ -47,6 +47,20 @@ public class HotelManager implements IHotelService {
             // Hotel sınıfını dönüştür
             Hotel hotel = modelMapper.forRequest().map(saveHotelRequest, Hotel.class);
 
+            List<Long> hostelIds = saveHotelRequest.getHostels();
+            List<Long> facilityIds = saveHotelRequest.getFacilities();
+
+            // Tüm hostel ve facility kimliklerinin geçerli olup olmadığını kontrol et
+            boolean allHostelsValid = hostelIds.stream()
+                    .allMatch(hostelId -> hostelRepo.findById(hostelId).isPresent());
+
+            boolean allFacilitiesValid = facilityIds.stream()
+                    .allMatch(facilityId -> facilityRepo.findById(facilityId).isPresent());
+
+            if (!allHostelsValid || !allFacilitiesValid) {
+                return ResultData.error(Msg.VALIDATE_ERROR, "One or more hostel/facility IDs are invalid");
+            }
+
             // Hostel ve Facility nesnelerini çek
             List<Hostel> hostelList = saveHotelRequest.getHostels().stream()
                     .map(hostelId -> hostelRepo.findById(hostelId).orElse(null))
@@ -57,6 +71,10 @@ public class HotelManager implements IHotelService {
                     .map(facilityId -> facilityRepo.findById(facilityId).orElse(null))
                     .filter(Objects::nonNull)
                     .collect(Collectors.toList());
+
+            if (hostelList.isEmpty() || facilityList.isEmpty()) {
+                return ResultData.error(Msg.VALIDATE_ERROR, "Hostel or facility list is empty.");
+            }
 
             // Hostel ve Facility listelerini Hotel nesnesine set et
             hotel.setHostels(hostelList);
@@ -94,18 +112,40 @@ public class HotelManager implements IHotelService {
         Long HotelId = updateHotelRequest.getId();
         try {
             Hotel response = this.hotelRepo.findById(HotelId).orElseThrow();
+
+
             this.modelMapper.forRequest().map(updateHotelRequest, response);
+
+            List<Long> hostelIds = updateHotelRequest.getHostels();
+            List<Long> facilityIds = updateHotelRequest.getFacilities();
+
+            boolean allHostelsValid = hostelIds.stream()
+                    .allMatch(hostelId -> hostelRepo.findById(hostelId).isPresent());
+
+            boolean allFacilitiesValid = facilityIds.stream()
+                    .allMatch(facilityId -> facilityRepo.findById(facilityId).isPresent());
+
+            if (!allHostelsValid || !allFacilitiesValid) {
+                return ResultData.error(Msg.VALIDATE_ERROR, "One or more hostel/facility IDs are invalid");
+            }
+
              List<Hostel> hostelList = updateHotelRequest.getHostels().stream()
                     .map(hostelId -> hostelRepo.findById(hostelId).orElse(null))
                     .filter(Objects::nonNull)
                     .collect(Collectors.toList());
 
-             response.setHostels(hostelList);
+
 
              List<Facility> facilityList = updateHotelRequest.getFacilities().stream().map(facilityId -> facilityRepo.findById(facilityId).orElse(null))
                      .filter(Objects::nonNull)
                      .collect(Collectors.toList());
+
+            if (hostelList.isEmpty() || facilityList.isEmpty()) {
+                return ResultData.error(Msg.VALIDATE_ERROR, "Hostel or facility list is empty.");
+            }
+
              response.setFacilities(facilityList);
+            response.setHostels(hostelList);
 
                 this.hotelRepo.save(response);
 
