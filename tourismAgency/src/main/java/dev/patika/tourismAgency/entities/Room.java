@@ -64,7 +64,7 @@ public class Room {
     private List<RoomFeatures> roomFeatures;
 
     @JsonIgnore
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "room_hotel_id" , referencedColumnName = "hotel_id")
     private Hotel hotel;
 
