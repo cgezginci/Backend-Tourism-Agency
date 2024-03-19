@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -20,8 +21,8 @@ public class UpdateRoomRequest {
     private int squareMeter; // room_square_meter
     private String personType; // room_person_type
     private int bedNumber; // room_bed_number
-    private Date periodStart;
-    private Date periodEnd;
+    private LocalDate periodStart;
+    private LocalDate periodEnd;
     private int price; // room_price
     private List<Long> roomFeatures;
     private Hotel hotel;

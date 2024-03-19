@@ -124,6 +124,14 @@ public class ReservationManager implements IReservationService {
                     int reservationPrice = room.getPrice() * updateReservationRequest.getPersonCount();
                     reservation.setReservationPrice(reservationPrice);
 
+                    reservation.setPersonName(updateReservationRequest.getPersonName());
+                    reservation.setPersonSurname(updateReservationRequest.getPersonSurname());
+                    reservation.setPersonPhone(updateReservationRequest.getPersonPhone());
+                    reservation.setPersonTc(updateReservationRequest.getPersonTc());
+                    reservation.setStartDate(updateReservationRequest.getStartDate());
+                    reservation.setEndDate(updateReservationRequest.getEndDate());
+                    reservation.setPersonCount(updateReservationRequest.getPersonCount());
+
                     reservation.setRoom(room);
                     reservationRepo.save(reservation);
                     ReservationResponse reservationResponse = modelMapper.forResponse().map(reservation, ReservationResponse.class);
@@ -133,6 +141,7 @@ public class ReservationManager implements IReservationService {
                 }
 
             }else {
+
                 return ResultData.error(Msg.ROOM_STOCK_ERROR, "500");
             }
 

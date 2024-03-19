@@ -137,10 +137,14 @@ public class RoomManager implements IRoomService {
 
             response.setRoomFeatures(roomFeaturesList);
 
+            response.setPeriodStart(updateRoomRequest.getPeriodStart());
+            response.setPeriodEnd(updateRoomRequest.getPeriodEnd());
+
             this.roomRepo.save(response);
             return ResultHelper.success(modelMapper.forResponse().map(response, RoomResponse.class));
 
         }catch (Exception e){
+
             return ResultData.error(Msg.VALIDATE_ERROR, "500");
         }
     }
