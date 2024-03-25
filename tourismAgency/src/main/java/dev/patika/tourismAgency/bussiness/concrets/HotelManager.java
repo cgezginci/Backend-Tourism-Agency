@@ -171,12 +171,23 @@ public class HotelManager implements IHotelService {
     }
 
     @Override
-    public ResultData<HotelResponse> findByHotelName(String name) {
-        return this.hotelRepo.findByNameIgnoreCase(name)
-                .stream()
-                .findFirst()
-                .map(hotel -> ResultHelper.success(this.modelMapper.forResponse().map(hotel, HotelResponse.class)))
-                .orElseGet(() -> ResultData.error(Msg.NOT_FOUND, "404"));
+    public ResultData<List<HotelResponse>> findByHotelName(String name) {
+        List<Hotel> hotelList = this.hotelRepo.findByNameIgnoreCase(name);
+
+        if (hotelList.isEmpty()) {
+            return ResultData.error(Msg.NOT_FOUND, "404");
+        }
+
+        try {
+            List<HotelResponse> responseList = new ArrayList<>();
+            for (Hotel hotel : hotelList) {
+                HotelResponse response = this.modelMapper.forResponse().map(hotel, HotelResponse.class);
+                responseList.add(response);
+            }
+            return ResultHelper.success(responseList);
+        } catch (Exception e) {
+            return ResultData.error(Msg.VALIDATE_ERROR, "500");
+        }
     }
 
     @Override

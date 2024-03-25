@@ -21,7 +21,7 @@ public interface IHotelService {
 
     ListResult<Hotel> findByName(String name);
 
-    ResultData<HotelResponse> findByHotelName(String name);
+    ResultData<List<HotelResponse>> findByHotelName(String name);
 
     ResultData<List<HotelResponse>> findAll();
 }

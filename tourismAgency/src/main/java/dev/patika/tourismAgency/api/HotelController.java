@@ -60,7 +60,7 @@ public class HotelController {
 
     @GetMapping("/{name}")
     @ResponseStatus(HttpStatus.OK)
-    public ResultData<HotelResponse> findByHotelName(@PathVariable("name") String name) {
+    public ResultData<List<HotelResponse>> findByHotelName(@PathVariable("name") String name) {
         return this.hotelService.findByHotelName(name);
        // return ResponseEntity.badRequest().body(this.hotelService.findByName(name)).getBody();
 
