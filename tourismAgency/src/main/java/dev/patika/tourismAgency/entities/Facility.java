@@ -2,6 +2,8 @@ package dev.patika.tourismAgency.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,6 +24,7 @@ public class Facility {
     @Column(name = "facility_id" , columnDefinition = "serial")
     private long id; // facility_id
 
+    @NotEmpty
     @Column(name = "facility_name")
     private String name; // facility_name
 

@@ -2,6 +2,8 @@ package dev.patika.tourismAgency.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,25 +26,36 @@ public class Room {
     @Column(name = "room_id" , columnDefinition = "serial")
     private long id; // room_id
 
-    @Column(name = "room_stock")
+
+    @NotNull
+    @Column(name = "room_stock" , nullable = false)
     private int stock; // room_stock
 
-    @Column(name = "room_square_meter")
+
+    @NotNull
+    @Column(name = "room_square_meter" , nullable = false)
     private int squareMeter; // room_square_meter
 
+    @NotEmpty
     @Column(name = "room_person_type")
     private String personType; // room_person_type
 
-    @Column(name = "room_bed_number")
+
+    @NotNull
+    @Column(name = "room_bed_number" , nullable = false)
     private int bedNumber; // room_bed_number
 
-    @Column(name = "room_price")
+    @NotNull
+    @Column(name = "room_price" , nullable = false)
     private int price; // room_price
 
-    @Column(name = "room_period_start")
+
+    @NotNull
+    @Column(name = "room_period_start" , nullable = false)
     private LocalDate periodStart;
 
-    @Column(name = "room_period_end")
+    @NotNull
+    @Column(name = "room_period_end" , nullable = false)
     private LocalDate periodEnd;
 
     @JsonIgnore

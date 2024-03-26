@@ -1,6 +1,8 @@
 package dev.patika.tourismAgency.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,24 +23,31 @@ public class Hotel {
     @Column(name = "hotel_id" , columnDefinition = "serial")
     private long id; // hotel_id
 
+    @NotEmpty
     @Column(name = "hotel_name")
     private String name; // hotel_name
 
+    @NotEmpty
     @Column(name = "hotel_city")
     private String city; // hotel_city
 
+    @NotEmpty
     @Column(name = "hotel_loc")
     private String loc; // hotel_loc
 
+    @NotEmpty
     @Column(name = "hotel_address")
     private String address; // hotel_address
 
+    @NotEmpty
     @Column(name = "hotel_phone")
     private String phone; // hotel_phone
 
+    @NotEmpty
     @Column(name = "hotel_email")
     private String email; // hotel_email
 
+    @NotNull
     @Column(name = "hotel_star")
     private int star; // hotel_star
 
