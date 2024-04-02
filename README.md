@@ -2,7 +2,9 @@
 
 Bu proje, bir turizm ajansının otel yönetimi için geliştirilmiş bir RESTful API'yi içermektedir. Aşağıda API endpoint'lerini ve kullanımını gösteren bir rehber bulunmaktadır.
 
+Öncelikle sisteme bir otel eklenmelidir. Sonrasında bu otele ait odalar eklenmektedir. Odalar eklendikten sonra bu odalara rezervasyon yapılabilmektedir.
 
+Odanın stoğu 0 ise rezervasyon yapılamaz ve odanın müsait gün aralığı dışında rezervasyon eklenemez.
 
 ![Diagram](tourismAgency/src/main/java/dev/patika/tourismAgency/assets/uml.png)
 
